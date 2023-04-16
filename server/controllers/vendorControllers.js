@@ -1,104 +1,53 @@
-const pool = require("../config/db");
+
+const mysql = require('mysql');
+const db = require('../config/db');
 
 // Get all vendors
-const getVendors = async (req, res) => {
-  try {
-    const allVendors = await pool.query("SELECT * FROM vendor");
-    res.json(allVendors.rows);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
+exports.getAll = (req, res) => {
+  const sql = 'SELECT * FROM vendor';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 };
 
-// Get a vendor by ID
-const getVendorById = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const vendor = await pool.query("SELECT * FROM vendor WHERE id = $1", [id]);
-    if (vendor.rows.length === 0) {
-      return res.status(404).json({ msg: "Vendor not found" });
-    }
-    res.json(vendor.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
+// Get one vendor by ID
+exports.getOne = (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT * FROM vendor WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result[0]);
+  });
 };
 
-// Add a new vendor
-const addVendor = async (req, res) => {
-  try {
-    const { id, name, phone_number } = req.body;
-
-    // Check if vendor already exists
-    const existingVendor = await pool.query("SELECT * FROM vendor WHERE id = $1", [id]);
-    if (existingVendor.rows.length !== 0) {
-      return res.status(400).json({ msg: "Vendor already exists" });
-    }
-
-    // Insert new vendor
-    await pool.query("INSERT INTO vendor (id, name, phone_number) VALUES ($1, $2, $3)", [
-      id,
-      name,
-      phone_number,
-    ]);
-    res.json("Vendor was added!");
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
+// Create a new vendor
+exports.create = (req, res) => {
+  const { id, name, phone_number } = req.body;
+  const sql = `INSERT INTO vendor (id, name, phone_number) VALUES ('${id}', '${name}', '${phone_number}', )`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Vendor created successfully');
+  });
 };
 
-// Update a vendor
-const updateVendor = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, phone_number } = req.body;
-
-    // Check if vendor exists
-    const existingVendor = await pool.query("SELECT * FROM vendor WHERE id = $1", [id]);
-    if (existingVendor.rows.length === 0) {
-      return res.status(404).json({ msg: "Vendor not found" });
-    }
-
-    // Update vendor
-    await pool.query("UPDATE vendor SET name = $1, phone_number = $2 WHERE id = $3", [
-      name,
-      phone_number,
-      id,
-    ]);
-    res.json(`Vendor with ID ${id} was updated!`);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
+// Update a vendor by ID
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { name, phone_number } = req.body;
+  const sql = `UPDATE vendor SET phone_number = '${name}', '${phone_number}' WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Vendor updated successfully');
+  });
 };
 
-// Delete a vendor
-const deleteVendor = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    // Check if vendor exists
-    const existingVendor = await pool.query("SELECT * FROM vendor WHERE id = $1", [id]);
-    if (existingVendor.rows.length === 0) {
-      return res.status(404).json({ msg: "Vendor not found" });
-    }
-
-    // Delete vendor
-    await pool.query("DELETE FROM vendor WHERE id = $1", [id]);
-    res.json(`Vendor with ID ${id} was deleted!`);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-};
-
-module.exports = {
-  getVendors,
-  getVendorById,
-  addVendor,
-  updateVendor,
-  deleteVendor,
+// Delete a vendor by ID
+exports.delete = (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM vendor WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Vendor deleted successfully');
+  });
 };

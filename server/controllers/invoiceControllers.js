@@ -1,68 +1,53 @@
-const pool = require("../config/db");
 
-const getInvoices = async (req, res) => {
-  try {
-    const allInvoices = await pool.query("SELECT * FROM invoice");
-    res.json(allInvoices.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+const mysql = require('mysql');
+const db = require('../config/db');
+
+// Get all invoices
+exports.getAll = (req, res) => {
+  const sql = 'SELECT * FROM invoice';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 };
 
-const getInvoice = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const invoice = await pool.query("SELECT * FROM invoice WHERE id = $1", [id]);
-    res.json(invoice.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Get one invoice by ID
+exports.getOne = (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT * FROM invoice WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result[0]);
+  });
 };
 
-const addInvoice = async (req, res) => {
-  try {
-    const { time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
-
-    await pool.query(
-      "INSERT INTO invoice (time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id) VALUES ($1 , $2 , $3, $4, $5)",
-      [time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id]
-    );
-    res.json("Invoice was added!");
-  } catch (err) {
-    console.error(err.message);
-  }
+// Create a new invoice
+exports.create = (req, res) => {
+  const { id, time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
+  const sql = `INSERT INTO invoice (id, time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id) VALUES ('${id}', '${time_stamp}', '${payment_due_date}', '${payment_time_stamp, payment_method, customer_id}')`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('invoice created successfully');
+  });
 };
 
-const updateInvoice = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
-
-    await pool.query(
-      "UPDATE invoice SET time_stamp = $1, payment_due_date = $2, payment_time_stamp = $3, payment_method = $4, customer_id = $5 WHERE id = $6",
-      [time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id, id]
-    );
-
-    res.json(`Invoice with id = ${id} was updated!`);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Update an invoice by ID
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
+  const sql = `UPDATE invoice SET time_stamp = '${time_stamp}', payment_due_date = '${payment_due_date}', payment_time_stamp, payment_method, customer_id = '${payment_time_stamp, payment_method, customer_id}' WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('invoice updated successfully');
+  });
 };
 
-const deleteInvoice = async (req, res) => {
-  try {
-    const { id } = req.params;
-    await pool.query("DELETE FROM invoice WHERE id = $1", [id]);
-    res.json(`Invoice with id = ${id} was deleted!`);
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-module.exports = {
-  getInvoices,
-  getInvoice,
-  addInvoice,
-  updateInvoice,
-  deleteInvoice,
+// Delete an invoice by ID
+exports.delete = (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM invoice WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('invoice deleted successfully');
+  });
 };

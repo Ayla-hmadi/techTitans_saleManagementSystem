@@ -1,67 +1,53 @@
-const pool = require("../config/db");
 
-const getStores = async (req, res) => {
-  try {
-    const allStores = await pool.query("SELECT * FROM store");
-    res.json(allStores.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+const mysql = require('mysql');
+const db = require('../config/db');
+
+// Get all stores
+exports.getAll = (req, res) => {
+  const sql = 'SELECT * FROM store';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 };
 
-const getStore = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const store = await pool.query("SELECT * FROM store WHERE id = $1", [id]);
-    res.json(store.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Get one store by ID
+exports.getOne = (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT * FROM store WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result[0]);
+  });
 };
 
-const addStore = async (req, res) => {
-  try {
-    const { id, name } = req.body;
-
-    await pool.query(
-      "INSERT INTO store (id, name) VALUES ($1 , $2)",
-      [id, name]
-    );
-    res.json("Store was added!");
-  } catch (err) {
-    console.error(err.message);
-  }
+// Create a new store
+exports.create = (req, res) => {
+  const { id, name } = req.body;
+  const sql = `INSERT INTO store (id, name) VALUES ('${id}', '${name}')`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Store created successfully');
+  });
 };
 
-const updateStore = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const { name } = req.body;
-    await pool.query(
-      "UPDATE store SET name = $1 WHERE id = $2",
-      [name, id]
-    );
-
-    res.json(`Store with id = ${id} was updated!`);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Update a store by ID
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+  const sql = `UPDATE store SET name = '${name}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Store updated successfully');
+  });
 };
 
-const deleteStore = async (req, res) => {
-  try {
-    const { id } = req.query;
-    await pool.query("DELETE FROM store WHERE id = $1", [id]);
-    res.json(`Store with id = ${id} was deleted!`);
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-
-module.exports = {
-  getStores,
-  getStore,
-  addStore,
-  updateStore,
-  deleteStore,
+// Delete a store by ID
+exports.delete = (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM store WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Store deleted successfully');
+  });
 };

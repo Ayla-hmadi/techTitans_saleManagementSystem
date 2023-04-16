@@ -1,23 +1,11 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const buysController = require('../controllers/buysControllers');
 
-const {
-  getBuys,
-  getBuy,
-  addBuy,
-  updateBuy,
-  deleteBuy,
-} = require("../controllers/buysControllers");
-
-router
-  .route("/")
-  .get(getBuys)
-  .post(addBuy);
-
-router
-  .route("/:id")
-  .get(getBuy)
-  .put(updateBuy)
-  .delete(deleteBuy);
+router.get('/', buysController.getAll);
+router.get('/:id', buysController.getOne);
+router.post('/', buysController.create);
+router.put('/:id', buysController.update);
+router.delete('/:id', buysController.delete);
 
 module.exports = router;

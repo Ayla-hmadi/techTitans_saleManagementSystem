@@ -1,69 +1,53 @@
-const pool = require("../config/db");
 
-const getProducts = async (req, res) => {
-  try {
-    const allProducts = await pool.query("SELECT * FROM product");
-    res.json(allProducts.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+const mysql = require('mysql');
+const db = require('../config/db');
+
+// Get all products
+exports.getAll = (req, res) => {
+  const sql = 'SELECT * FROM product';
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result);
+  });
 };
 
-const getProduct = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const product = await pool.query("SELECT * FROM product WHERE product_id = $1", [
-      id,
-    ]);
-    res.json(product.rows);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Get one product by ID
+exports.getOne = (req, res) => {
+  const { id } = req.params;
+  const sql = `SELECT * FROM product WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.json(result[0]);
+  });
 };
 
-const addProduct = async (req, res) => {
-  try {
-    const { name, description, vendor_id, price, quantity } = req.body;
-
-    await pool.query(
-      "INSERT INTO product (name, description, vendor_id, price, quantity) VALUES ($1 , $2 , $3, $4, $5)",
-      [name, description, vendor_id, price, quantity]
-    );
-    res.json("Product was added!");
-  } catch (err) {
-    console.error(err.message);
-  }
+// Create a new product
+exports.create = (req, res) => {
+  const { id, name, location, store_id } = req.body;
+  const sql = `INSERT INTO product (id, name) VALUES ('${id}', '${name}')`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Product created successfully');
+  });
 };
 
-const updateProduct = async (req, res) => {
-  try {
-    const { id } = req.query;
-    const { name, description, vendor_id, price, quantity } = req.body;
-    await pool.query(
-      "UPDATE product SET name = $1 , description = $2 , vendor_id = $3, price = $4, quantity = $5 WHERE product_id = $6",
-      [name, description, vendor_id, price, quantity, id]
-    );
-
-    res.json(`Product with id = ${id} was updated!`);
-  } catch (err) {
-    console.error(err.message);
-  }
+// Update a product by ID
+exports.update = (req, res) => {
+  const { id } = req.params;
+  const { name} = req.body;
+  const sql = `UPDATE product SET name = '${name}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Product updated successfully');
+  });
 };
 
-const deleteProduct = async (req, res) => {
-  try {
-    const { id } = req.query;
-    await pool.query("DELETE FROM product WHERE product_id = $1", [id]);
-    res.json(`Product with id = ${id} was deleted!`);
-  } catch (err) {
-    console.log(err.message);
-  }
-};
-
-module.exports = {
-  getProducts,
-  getProduct,
-  addProduct,
-  updateProduct,
-  deleteProduct,
+// Delete a product by ID
+exports.delete = (req, res) => {
+  const { id } = req.params;
+  const sql = `DELETE FROM product WHERE id = '${id}'`;
+  db.query(sql, (err, result) => {
+    if (err) throw err;
+    res.send('Product deleted successfully');
+  });
 };
