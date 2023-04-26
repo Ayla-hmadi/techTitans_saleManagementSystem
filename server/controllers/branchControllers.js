@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new branch
 exports.create = (req, res) => {
-  const { id, phone_number, location, store_id } = req.body;
-  const sql = `INSERT INTO branch (id, phone_number, location, store_id) VALUES ('${id}', '${phone_number}', '${location}', '${store_id}')`;
+  const { id, storeId, road, city, country, openingDate, phoneNumber} = req.body;
+  const sql = `INSERT INTO branch (id, storeId, road, city, country, openingDate, phoneNumber) VALUES ('${id}', '${storeId}', '${road}', '${city}', '${country}', '${openingDate}', '${phoneNumber}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Branch created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update a branch by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { phone_number, location, store_id } = req.body;
-  const sql = `UPDATE branch SET phone_number = '${phone_number}', location = '${location}', store_id = '${store_id}' WHERE id = '${id}'`;
+  const { storeId, road, city, country, openingDate, phoneNumber } = req.body;
+  const sql = `UPDATE branch SET storeId = '${storeId}', road = '${road}', city = '${city}', country = '${country}', openingDate = '${openingDate}', phoneNumber = '${phoneNumber}',  WHERE id = '${id}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Branch updated successfully');

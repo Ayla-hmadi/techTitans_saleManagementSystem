@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new invoice
 exports.create = (req, res) => {
-  const { id, time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
-  const sql = `INSERT INTO invoice (id, time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id) VALUES ('${id}', '${time_stamp}', '${payment_due_date}', '${payment_time_stamp, payment_method, customer_id}')`;
+  const { id, timeStamp, paymentDueDate, paymentMethod, paymentTimeStamp, amount } = req.body;
+  const sql = `INSERT INTO invoice (id,  timeStamp, paymentDueDate, paymentMethod, paymentTimeStamp, amount ) VALUES ('${id}', '${timeStamp}', '${paymentDueDate}', '${paymentMethod}', '${paymentTimeStamp}','${amount}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('invoice created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update an invoice by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { time_stamp, payment_due_date, payment_time_stamp, payment_method, customer_id } = req.body;
-  const sql = `UPDATE invoice SET time_stamp = '${time_stamp}', payment_due_date = '${payment_due_date}', payment_time_stamp, payment_method, customer_id = '${payment_time_stamp, payment_method, customer_id}' WHERE id = '${id}'`;
+  const { timeStamp, paymentDueDate, paymentMethod, paymentTimeStamp, amount  } = req.body;
+  const sql = `UPDATE invoice SET timeStamp = '${timeStamp}', paymentDueDate = '${paymentDueDate}', paymentMethod = '${paymentMethod}',  paymentTimeStamp = '${paymentTimeStamp}',  amount = '${amount}' WHERE id = '${id}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('invoice updated successfully');

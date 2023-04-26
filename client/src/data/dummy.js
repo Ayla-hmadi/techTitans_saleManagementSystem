@@ -437,9 +437,9 @@ export const LinePrimaryYAxis = {
 };
 
 export const customersGrid = [
-  { type: "checkbox", width: "50" },
+  // { type: "checkbox", width: "50" },
   {
-    field: "customerId",
+    field: "id",
     headerText: "Customer ID",
     width: "120",
     textAlign: "Center",
@@ -452,7 +452,7 @@ export const customersGrid = [
     textAlign: "Center",
   },
   {
-    field: "phoneNumber",
+    field: "phone_number",
     headerText: "Phone Number",
     width: "150",
     textAlign: "Center",
@@ -461,7 +461,7 @@ export const customersGrid = [
 
 
 export const employeesGrid = [
-  { type: "checkbox", width: "50" },
+  // { type: "checkbox", width: "50" },
 
   { field: 'id',
   headerText: 'Employee ID',
@@ -498,7 +498,7 @@ export const employeesGrid = [
 
 
 export const vendorsGrid = [
-  { type: "checkbox", width: "50" },
+  // { type: "checkbox", width: "50" },
 
   {
     field: "id",
@@ -941,7 +941,7 @@ export const userProfileData = [
 ];
 
 export const ordersGrid = [
-  { type: "checkbox", width: "50" },
+  // { type: "checkbox", width: "50" },
 
   {
   field: "product_id",

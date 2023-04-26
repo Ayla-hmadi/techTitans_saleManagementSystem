@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new store
 exports.create = (req, res) => {
-  const { id, name } = req.body;
-  const sql = `INSERT INTO store (id, name) VALUES ('${id}', '${name}')`;
+  const { id, name, description } = req.body;
+  const sql = `INSERT INTO store (id, name, description) VALUES ('${id}', '${name}', '${description}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Store created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update a store by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
-  const sql = `UPDATE store SET name = '${name}'`;
+  const { name, description } = req.body;
+  const sql = `UPDATE store SET name = '${name}', description = ${description}  WHERE id = '${id}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Store updated successfully');

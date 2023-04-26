@@ -4,7 +4,7 @@ const cors = require("cors");
 
 const bodyParser = require('body-parser');
 const branchRoutes = require('./routes/branchRoutes');
-const buysRoutes = require('./routes/buysRoutes');
+const ordersRoutes = require('./routes/ordersRoutes');
 
 const customerRoutes = require('./routes/customerRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/branches', branchRoutes);
-app.use('/buys', buysRoutes);
+app.use('/orders', ordersRoutes);
 app.use('/customer', customerRoutes);
 app.use('/employee', employeeRoutes);
 app.use('/invoice', invoiceRoutes);

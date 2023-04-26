@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new employee
 exports.create = (req, res) => {
-  const { id, name, phone_number, position, salary, branch_id } = req.body;
-  const sql = `INSERT INTO employee (id, name, phone_number, position, salary, branch_id) VALUES ('${id}', '${name}', '${phone_number}', '${position, salary, branch_id}')`;
+  const { id, branchId, firstName, lastName, phoneNumber,  salary, position, managerId, joinDate } = req.body;
+  const sql = `INSERT INTO employee (id, branchId, firstName, lastName, phoneNumber,  salary, position, managerId, joinDate ) VALUES ('${id}', '${branchId}', '${firstName}', '${lastName}', '${phoneNumber}', '${salary}', '${position}', '${managerId}', '${joinDate}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('employee created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update an employee by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { name, phone_number, position, salary, branch_id } = req.body;
-  const sql = `UPDATE employee SET name = '${name}', phone_number = '${phone_number}', position, salary, branch_id = '${position, salary, branch_id}' WHERE id = '${id}'`;
+  const { branchId, firstName, lastName, phoneNumber,  salary, position, managerId, joinDate } = req.body;
+  const sql = `UPDATE employee SET branchId = '${branchId}', firstName = '${firstName}',lastName= '${lastName}' phoneNumber = '${phoneNumber}', salary = '${salary}', position = '${position}', managerId = '${managerId}', joinDate = '${joinDate}' WHERE id = '${id}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('employee updated successfully');
