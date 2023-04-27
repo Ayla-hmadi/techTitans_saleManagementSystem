@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new customer
 exports.create = (req, res) => {
-  const { name, phone_number } = req.body;
-  const sql = `INSERT INTO customer (name, phone_number) VALUES ('${name}', '${phone_number}')`;
+  const { name, phoneNumber } = req.body;
+  const sql = `INSERT INTO customer (name, phoneNumber) VALUES ('${name}', '${phoneNumber}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('customer created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update a customer by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { name, phone_number} = req.body;
-  const sql = `UPDATE customer SET  name = '${name}', quatity = '${phone_number}' WHERE id = '${id}'`;
+  const { name, phoneNumber} = req.body;
+  const sql = `UPDATE customer SET  name = '${name}', quatity = '${phoneNumber}' WHERE id = '${id}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('customers updated successfully');

@@ -4,6 +4,7 @@ import { Header } from '../components';
 import {ProductsGrid } from '../data/dummy';
 
 const Products = () => {
+  var id =11;
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = [''];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -32,12 +33,14 @@ const Products = () => {
 
   const AddForm = ({ onAdd }) => {
     const [name, setName] = useState("");
-
+    const [vendorId, setVendorId] = useState("");
+    const [description, setDescription] = useState("");
     const [showForm, setShowForm] = useState(false);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = {name: name };
+      const newItem = {id: id, name: name, vendorId: vendorId, description: description };
+      id = id + 1;
       console.log(newItem);
       const response = await fetch("http://localhost:5000/product", {
         method: "POST",
@@ -49,14 +52,16 @@ const Products = () => {
       const data = await response.json();
       onAdd(data);
       setName("");
-
+      setVendorId("");
+      setDescription("");
       setShowForm(false);
     };
 
     const handleCancel = (e) => {
       e.preventDefault();
       setName("");
-
+      setVendorId("");
+      setDescription("");
       setShowForm(false);
     };
 
@@ -83,6 +88,32 @@ const Products = () => {
                   id="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex flex-col mb-2">
+                <label htmlFor="vendorId" className="mb-1 font-bold">
+                  Vendor Id
+                </label>
+                <input
+                  type="number"
+                  id="vendorId"
+                  value={vendorId}
+                  onChange={(e) => setVendorId(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex flex-col mb-2">
+                <label htmlFor="description" className="mb-1 font-bold">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  id="description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />

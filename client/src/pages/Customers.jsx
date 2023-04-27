@@ -33,12 +33,12 @@ const Customers = () => {
 
   const AddForm = ({ onAdd }) => {
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [showForm, setShowForm] = useState(false);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = { name: name, phone_number: phone };
+      const newItem = { name: name, phoneNumber: phoneNumber };
       console.log(newItem);
       const response = await fetch("http://localhost:5000/customer", {
         method: "POST",
@@ -50,14 +50,14 @@ const Customers = () => {
       const data = await response.json();
       onAdd(data);
       setName("");
-      setPhone("");
+      setPhoneNumber("");
       setShowForm(false);
     };
 
     const handleCancel = (e) => {
       e.preventDefault();
       setName("");
-      setPhone("");
+      setPhoneNumber("");
       setShowForm(false);
     };
 
@@ -88,14 +88,14 @@ const Customers = () => {
                 />
               </div>
               <div className="flex flex-col mb-2">
-                <label htmlFor="phone" className="mb-1 font-bold">
+                <label htmlFor="phoneNumber" className="mb-1 font-bold">
                   Phone
                 </label>
                 <input
                   type="tel"
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />

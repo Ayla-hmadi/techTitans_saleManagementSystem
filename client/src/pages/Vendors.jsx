@@ -15,6 +15,7 @@ import { Header } from "../components";
 import { vendorsGrid } from "../data/dummy";
 
 const Vendors = () => {
+  var id = 11;
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = [""];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -43,14 +44,21 @@ const Vendors = () => {
 
   const AddForm = ({ onAdd }) => {
     const [name, setName] = useState("");
-
-    const [phone, setPhone] = useState("");
-
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
     const [showForm, setShowForm] = useState(false);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = { name: name, phone_number: phone };
+      const newItem = {
+        id: id,
+        name: name,
+        phoneNumber: phoneNumber,
+        city: city,
+        country: country,
+      };
+      id = id + 1;
       console.log(newItem);
       const response = await fetch("http://localhost:5000/vendor", {
         method: "POST",
@@ -62,16 +70,18 @@ const Vendors = () => {
       const data = await response.json();
       onAdd(data);
       setName("");
-      setPhone("");
-
+      setPhoneNumber("");
+      setCity("");
+      setCountry("");
       setShowForm(false);
     };
 
     const handleCancel = (e) => {
       e.preventDefault();
       setName("");
-      setPhone("");
-
+      setPhoneNumber("");
+      setCity("");
+      setCountry("");
       setShowForm(false);
     };
 
@@ -88,7 +98,7 @@ const Vendors = () => {
           <div className="my-6">
             <h2 className="text-xl font-bold mb-2">Add Vendor</h2>
             <form onSubmit={handleSubmit}>
-            <div className="flex flex-col mb-2">
+              <div className="flex flex-col mb-2">
                 <label htmlFor="name" className="mb-1 font-bold">
                   Name
                 </label>
@@ -102,19 +112,45 @@ const Vendors = () => {
                 />
               </div>
               <div className="flex flex-col mb-2">
-                <label htmlFor="phone" className="mb-1 font-bold">
+                <label htmlFor="phoneNumber" className="mb-1 font-bold">
                   Phone
                 </label>
                 <input
                   type="tel"
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />
               </div>
-             
+              <div className="flex flex-col mb-2">
+                <label htmlFor="city" className="mb-1 font-bold">
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex flex-col mb-2">
+                <label htmlFor="country" className="mb-1 font-bold">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  id="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+
               <div className="flex justify-between">
                 <button
                   type="submit"

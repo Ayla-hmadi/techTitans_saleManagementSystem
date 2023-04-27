@@ -1,0 +1,12 @@
+ALTER TABLE Store ADD INDEX idx_name (name);
+ALTER TABLE Vendor ADD INDEX idx_name (name);
+ALTER TABLE Branch ADD INDEX idx_storeId (storeId);
+ALTER TABLE Customer ADD INDEX idx_name (name);
+ALTER TABLE Product ADD INDEX idx_vendorId (vendorId);
+ALTER TABLE Employee ADD INDEX idx_branchId (branchId);
+ALTER TABLE branch_product ADD INDEX idx_branchId (branchId);
+ALTER TABLE branch_product ADD INDEX idx_productId (productId);
+ALTER TABLE orders ADD INDEX idx_customerId (customerId);
+ALTER TABLE order_product ADD INDEX idx_orderId (orderId);
+ALTER TABLE order_product ADD INDEX idx_productId (productId);
+ALTER TABLE invoice ADD INDEX idx_paymentDueDate (paymentDueDate);

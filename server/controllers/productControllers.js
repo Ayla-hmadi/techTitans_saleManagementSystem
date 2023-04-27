@@ -23,8 +23,8 @@ exports.getOne = (req, res) => {
 
 // Create a new product
 exports.create = (req, res) => {
-  const { id, vendorId, name, Description } = req.body;
-  const sql = `INSERT INTO product (id, vendorId, name, Description ) VALUES ('${id}', '${vendorId}', '${name}','${Description}',)`;
+  const { id, vendorId, name, description } = req.body;
+  const sql = `INSERT INTO product (id, vendorId, name, description ) VALUES ('${id}', '${vendorId}', '${name}','${description}')`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Product created successfully');
@@ -34,8 +34,8 @@ exports.create = (req, res) => {
 // Update a product by ID
 exports.update = (req, res) => {
   const { id } = req.params;
-  const { vendorId, name, Description} = req.body;
-  const sql = `UPDATE product SET vendorId = '${vendorId}', name = '${name}', Description = '${Description}'`;
+  const { vendorId, name, description} = req.body;
+  const sql = `UPDATE product SET vendorId = '${vendorId}', name = '${name}', description = '${description}'`;
   db.query(sql, (err, result) => {
     if (err) throw err;
     res.send('Product updated successfully');

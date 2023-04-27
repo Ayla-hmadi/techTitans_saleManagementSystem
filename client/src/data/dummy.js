@@ -452,7 +452,7 @@ export const customersGrid = [
     textAlign: "Center",
   },
   {
-    field: "phone_number",
+    field: "phoneNumber",
     headerText: "Phone Number",
     width: "150",
     textAlign: "Center",
@@ -467,19 +467,22 @@ export const employeesGrid = [
   headerText: 'Employee ID',
   width: '125',
   textAlign: 'Center' },
-  { field: 'name',
-  headerText: 'Name',
-  width: '150',
-  textAlign: 'Center',
-  },
-  { field: 'phone_number',
+  { field: 'branchId',
+  headerText: 'Branch Id',
+  width: '125',
+  textAlign: 'Center' },
+  { field: 'firstName',
+  headerText: 'First Name',
+  width: '125',
+  textAlign: 'Center' },
+  { field: 'lastName',
+  headerText: 'Last Name',
+  width: '125',
+  textAlign: 'Center' },
+ 
+  { field: 'phoneNumber',
   headerText: 'Phone Number',
   width: '150',
-  textAlign: 'Center',
-  },
-  { field: 'position',
-  headerText: 'Position',
-  width: '120',
   textAlign: 'Center',
   },
   { field: 'salary',
@@ -488,11 +491,23 @@ export const employeesGrid = [
   textAlign: 'Center',
   },
   
-  { field: 'branch_id',
-  headerText: 'Branch Id',
+  { field: 'position',
+  headerText: 'Position',
+  width: '120',
+  textAlign: 'Center',
+  },
+
+  { field: 'managerId',
+  headerText: 'Manager Id',
   width: '150',
   textAlign: 'Center',
   },
+  { field: 'joinDate',
+  headerText: 'Join Date',
+  width: '120',
+  textAlign: 'Center',
+  },
+  
  
   ];
 
@@ -508,11 +523,23 @@ export const vendorsGrid = [
   },
   { field: "name", headerText: "Name", width: "150", textAlign: "Center" },
   {
-    field: "phone_number",
+    field: "phoneNumber",
     headerText: "Phone Number",
     width: "150",
     textAlign: "Center",
   },
+  {
+    field: "city",
+    headerText: "City",
+    width: "150",
+    textAlign: "Center",
+    },
+    {
+      field: "country",
+      headerText: "country",
+      width: "150",
+      textAlign: "Center",
+      },
   
 ];
 
@@ -524,16 +551,38 @@ export const BranchesGrid = [
     textAlign: "Center",
   },
   {
-    field: "phone_number",
-    headerText: "Phone Number",
-    width: "150",
+    field: "storeId",
+    headerText: "Store ID",
+    width: "125",
     textAlign: "Center",
   },
-  { field: "location", headerText: "Location", width: "120", textAlign: "Center" },
-
   {
-    field: "store_id",
-    headerText: "StoreId",
+    field: "road",
+    headerText: "Road",
+    width: "125",
+    textAlign: "Center",
+  },
+  {
+    field: "city",
+    headerText: "City",
+    width: "125",
+    textAlign: "Center",
+  },
+  {
+    field: "country",
+    headerText: "Country",
+    width: "125",
+    textAlign: "Center",
+  },
+  {
+    field: "openingDate",
+    headerText: "Opening Date",
+    width: "125",
+    textAlign: "Center",
+  },
+  {
+    field: "phoneNumber",
+    headerText: "Phone Number",
     width: "150",
     textAlign: "Center",
   },
@@ -546,6 +595,12 @@ export const ProductsGrid = [
     width: "125",
     textAlign: "Center",
   },
+  {
+    field: "vendorId",
+    headerText: "Vendor ID",
+    width: "150",
+    textAlign: "Center",
+    },
 
   {
     field: "name",
@@ -553,6 +608,12 @@ export const ProductsGrid = [
     width: "150",
     textAlign: "Center",
   },
+  {
+    field: "description",
+    headerText: "Description",
+    width: "150",
+    textAlign: "Center",
+    },
 
 ];
 
@@ -564,36 +625,36 @@ export const InvoicesGrid = [
     textAlign: "Center",
   },
   {
-    field: "time_stamp",
-    headerText: "Timestamp",
+    field: "timeStamp",
+    headerText: "Time stamp",
     width: "200",
     textAlign: "Center",
   },
   {
-    field: "payment_due_date",
+    field: "paymentDueDate",
     headerText: "Due Date",
     width: "200",
     textAlign: "Center",
   },
   {
-    field: "payment_time_stamp",
-    headerText: "Payment Timestamp",
+    field: "paymentMethod",
+    headerText: "Payment Method",
     width: "200",
     textAlign: "Center",
   },
   {
-    field: "payment_method",
-    headerText: "Payment Method",
+    field: "paymentTimeStamp",
+    headerText: "Payment Time stamp",
     width: "200",
     textAlign: "Center",
   },
 
   {
-    field: "customer_id",
-    headerText: "Customer Id",
-    width: "150",
+    field: "amount",
+    headerText: "Amount",
+    width: "200",
     textAlign: "Center",
-  }
+  },
 ];
 
 
@@ -944,21 +1005,27 @@ export const ordersGrid = [
   // { type: "checkbox", width: "50" },
 
   {
-  field: "product_id",
+  field: "id",
   headerText: "Order ID",
   width: "125",
   textAlign: "Center",
   },
   {
-  field: "invoice_id",
+  field: "invoiceId",
   headerText: "Invoice ID",
   width: "150",
   textAlign: "Center",
   },
+  {
+    field: "customerId",
+    headerText: "Customer ID",
+    width: "150",
+    textAlign: "Center",
+    },
  
   {
-  field: "quantity",
-  headerText: "Quantity",
+  field: "expectedDeliveryDate",
+  headerText: "Delivery Date",
   width: "200",
   textAlign: "Center",
   },

@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { GridComponent, ColumnsDirective, ColumnDirective, Page, Selection, Inject, Edit, Toolbar, Sort, Filter } from '@syncfusion/ej2-react-grids';
-import { Header } from '../components';
-import {ordersGrid } from '../data/dummy';
+import React, { useState, useEffect } from "react";
+import {
+  GridComponent,
+  ColumnsDirective,
+  ColumnDirective,
+  Page,
+  Selection,
+  Inject,
+  Edit,
+  Toolbar,
+  Sort,
+  Filter,
+} from "@syncfusion/ej2-react-grids";
+import { Header } from "../components";
+import { ordersGrid } from "../data/dummy";
 
 const Orders = () => {
+  var id = 12;
   const selectionsettings = { persistSelection: true };
-  const toolbarOptions = [''];
+  const toolbarOptions = [""];
   const editing = { allowDeleting: true, allowEditing: true };
   const [dataSource, setDataSource] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:5000/buys');
+      const response = await fetch("http://localhost:5000/orders");
       const data = await response.json();
       setDataSource(data);
     }
@@ -19,7 +31,7 @@ const Orders = () => {
   }, []);
 
   const handleAdd = async (data) => {
-    const response = await fetch("http://localhost:5000/buys", {
+    const response = await fetch("http://localhost:5000/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,15 +43,23 @@ const Orders = () => {
   };
 
   const AddForm = ({ onAdd }) => {
-    const [invoice_id, setInvoiceId] = useState("");
-    const [quantity, setQuantity] = useState("");
+    const [invoiceId, setInvoiceId] = useState("");
+    const [customerId, setCustomerId] = useState("");
+
+    const [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
     const [showForm, setShowForm] = useState(false);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = {invoice_id: invoice_id, quantity: quantity  };
+      const newItem = {
+        id: id,
+        invoiceId: invoiceId,
+        customerId: customerId,
+        expectedDeliveryDate: expectedDeliveryDate,
+      };
+      id = id + 1;
       console.log(newItem);
-      const response = await fetch("http://localhost:5000/buys", {
+      const response = await fetch("http://localhost:5000/orders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -49,14 +69,16 @@ const Orders = () => {
       const data = await response.json();
       onAdd(data);
       setInvoiceId("");
-      setQuantity("");
+      setCustomerId("");
+      setExpectedDeliveryDate("");
       setShowForm(false);
     };
 
     const handleCancel = (e) => {
       e.preventDefault();
       setInvoiceId("");
-      setQuantity("");
+      setCustomerId("");
+      setExpectedDeliveryDate("");
       setShowForm(false);
     };
 
@@ -73,34 +95,49 @@ const Orders = () => {
           <div className="my-6">
             <h2 className="text-xl font-bold mb-2">Add Order</h2>
             <form onSubmit={handleSubmit}>
-             
               <div className="flex flex-col mb-2">
-                <label htmlFor="invoice_id" className="mb-1 font-bold">
+                <label htmlFor="invoiceId" className="mb-1 font-bold">
                   Invoice Id
                 </label>
                 <input
                   type="number"
-                  id="invoice_id"
-                  value={invoice_id}
+                  id="invoiceId"
+                  value={invoiceId}
                   onChange={(e) => setInvoiceId(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />
               </div>
               <div className="flex flex-col mb-2">
-                <label htmlFor="quantity" className="mb-1 font-bold">
-                  Quantity
+                <label htmlFor="customerId" className="mb-1 font-bold">
+                  Customer Id
                 </label>
                 <input
                   type="num"
-                  id="quantity"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
+                  id="customerId"
+                  value={customerId}
+                  onChange={(e) => setCustomerId(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />
               </div>
-           
+              <div className="flex flex-col mb-2">
+                <label
+                  htmlFor="expectedDeliveryDate"
+                  className="mb-1 font-bold"
+                >
+                  Expected Delivery Date
+                </label>
+                <input
+                  type="date"
+                  id="expectedDeliveryDate"
+                  value={expectedDeliveryDate}
+                  onChange={(e) => setExpectedDeliveryDate(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+
               <div className="flex justify-between">
                 <button
                   type="submit"
@@ -122,7 +159,6 @@ const Orders = () => {
     );
   };
 
-
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
       <Header category="Page" title="Orders" />
@@ -140,7 +176,9 @@ const Orders = () => {
       >
         <ColumnsDirective>
           {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {ordersGrid.map((item, index) => <ColumnDirective key={index} {...item} />)}
+          {ordersGrid.map((item, index) => (
+            <ColumnDirective key={index} {...item} />
+          ))}
         </ColumnsDirective>
         <Inject services={[Page, Selection, Toolbar, Edit, Sort, Filter]} />
       </GridComponent>

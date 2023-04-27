@@ -4,6 +4,7 @@ import { Header } from '../components';
 import {InvoicesGrid } from '../data/dummy';
 
 const Invoices = () => {
+  var id = 21;
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = [''];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -31,15 +32,18 @@ const Invoices = () => {
   };
 
   const AddForm = ({ onAdd }) => {
-    const [time_stamp, setTimeStamp] = useState("");
-    const [payment_due_date, setPaymentDueDate] = useState("");
-    const [payment_time_stamp, setPaymentTimeStamp] = useState("");
-    const [payment_method, setPaymentMethod] = useState("");
-    const [customer_id, setCustomerId] = useState(false);
+    const [timeStamp, setTimeStamp] = useState("");
+    const [paymentDueDate, setPaymentDueDate] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [paymentTimeStamp, setPaymentTimeStamp] = useState("");
+    const [amount, setAmount] = useState(false);
+    const [showForm, setShowForm] = useState(false);
+
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = {time_stamp: time_stamp, payment_due_date: payment_due_date, payment_time_stamp: payment_time_stamp, payment_method: payment_method,customer_id: customer_id  };
+      const newItem = {id:id, timeStamp: timeStamp, paymentDueDate: paymentDueDate, paymentMethod: paymentMethod, paymentTimeStamp: paymentTimeStamp, amount:amount };
+      id = id+1;
       console.log(newItem);
       const response = await fetch("http://localhost:5000/invoice", {
         method: "POST",
@@ -52,9 +56,10 @@ const Invoices = () => {
       onAdd(data);
       setTimeStamp("");
       setPaymentDueDate("");
-      setPaymentTimeStamp("");
       setPaymentMethod("");
-      setCustomerId("");
+
+      setPaymentTimeStamp("");
+      setAmount("");
 
       setShowForm(false);
     };
@@ -110,6 +115,19 @@ const Invoices = () => {
                 />
               </div>
               <div className="flex flex-col mb-2">
+                <label htmlFor="paymentMethod" className="mb-1 font-bold">
+                  Payment Method
+                </label>
+                <input
+                  type="text"
+                  id="paymentMethod"
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              <div className="flex flex-col mb-2">
                 <label htmlFor="paymentTimeStamp" className="mb-1 font-bold">
                   Payment Time Stamp
                 </label>
@@ -123,29 +141,17 @@ const Invoices = () => {
                 />
               </div>
                 
-              <div className="flex flex-col mb-2">
-                <label htmlFor="paymentMethod" className="mb-1 font-bold">
-                  Payment Method
-                </label>
-                <input
-                  type="text"
-                  id="paymentMethod"
-                  value={paymentMethod}
-                  onChange={(e) => setPaymentMethod(e.target.value)}
-                  className="border p-2 rounded-lg"
-                  required
-                />
-              </div>
+          
                 
               <div className="flex flex-col mb-2">
-                <label htmlFor="customerId" className="mb-1 font-bold">
-                  Customer Id
+                <label htmlFor="amount" className="mb-1 font-bold">
+                Amount
                 </label>
                 <input
                   type="num"
-                  id="customerId"
-                  value={customerId}
-                  onChange={(e) => setCustomerIdi(e.target.value)}
+                  id="amount"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
                   className="border p-2 rounded-lg"
                   required
                 />

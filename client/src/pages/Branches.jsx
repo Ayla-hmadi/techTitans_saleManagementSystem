@@ -4,6 +4,8 @@ import { Header } from '../components';
 import {BranchesGrid } from '../data/dummy';
 
 const Branches = () => {
+  var id = 14;
+
   const selectionsettings = { persistSelection: true };
   const toolbarOptions = [''];
   const editing = { allowDeleting: true, allowEditing: true };
@@ -11,7 +13,7 @@ const Branches = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:5000/Branches');
+      const response = await fetch('http://localhost:5000/branches');
       const data = await response.json();
       setDataSource(data);
     }
@@ -19,7 +21,7 @@ const Branches = () => {
   }, []);
 
   const handleAdd = async (data) => {
-    const response = await fetch("http://localhost:5000/Branches", {
+    const response = await fetch("http://localhost:5000/branches", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -31,35 +33,46 @@ const Branches = () => {
   };
 
   const AddForm = ({ onAdd }) => {
-    const [phone, setPhone] = useState("");
-    const [location, setLocation] = useState("");
     const [storeId, setStoreId] = useState("");
+    const [road, setRoad] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [openingDate, setOpeningDate] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [showForm, setShowForm] = useState(false);
 
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const newItem = {phone_number: phone, location: location,store_id: storeId  };
+      const newItem = {id : id,storeId: storeId, road: road, city: city, country: country, openingDate: openingDate, phoneNumber: phoneNumber  };
+      id = id +1;
       console.log(newItem);
-      const response = await fetch("http://localhost:5000/Branches", {
+      const response = await fetch("http://localhost:5000/branches", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newItem),
       });
-      const data = await response.json();
+      const data =
+       await response.json();
       onAdd(data);
-      setPhone("");
-      setLocation("");
       setStoreId("");
+      setRoad("");
+      setCity("");
+      setCountry("");
+      setOpeningDate("");
+      setPhoneNumber("");
       setShowForm(false);
     };
 
     const handleCancel = (e) => {
       e.preventDefault();
-      setPhone("");
-      setLocation("");
       setStoreId("");
+      setRoad("");
+      setCity("");
+      setCountry("");
+      setOpeningDate("");
+      setPhoneNumber("");
       setShowForm(false);
     };
 
@@ -76,39 +89,12 @@ const Branches = () => {
           <div className="my-6">
             <h2 className="text-xl font-bold mb-2">Add Branch</h2>
             <form onSubmit={handleSubmit}>
-             
-              <div className="flex flex-col mb-2">
-                <label htmlFor="phone" className="mb-1 font-bold">
-                  Phone
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  className="border p-2 rounded-lg"
-                  required
-                />
-              </div>
-              <div className="flex flex-col mb-2">
-                <label htmlFor="location" className="mb-1 font-bold">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  id="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="border p-2 rounded-lg"
-                  required
-                />
-              </div>
-              <div className="flex flex-col mb-2">
+            <div className="flex flex-col mb-2">
                 <label htmlFor="storeId" className="mb-1 font-bold">
                   Store Id
                 </label>
                 <input
-                  type="num"
+                  type="number"
                   id="storeId"
                   value={storeId}
                   onChange={(e) => setStoreId(e.target.value)}
@@ -116,6 +102,78 @@ const Branches = () => {
                   required
                 />
               </div>
+              
+              <div className="flex flex-col mb-2">
+                <label htmlFor="road" className="mb-1 font-bold">
+                  Road
+                </label>
+                <input
+                  type="text"
+                  id="road"
+                  value={road}
+                  onChange={(e) => setRoad(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+
+              <div className="flex flex-col mb-2">
+                <label htmlFor="city" className="mb-1 font-bold">
+                  City
+                </label>
+                <input
+                  type="text"
+                  id="city"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              
+              <div className="flex flex-col mb-2">
+                <label htmlFor="country" className="mb-1 font-bold">
+                  Country
+                </label>
+                <input
+                  type="text"
+                  id="country"
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+               
+              <div className="flex flex-col mb-2">
+                <label htmlFor="openingDate" className="mb-1 font-bold">
+                  Opening Date
+                </label>
+                <input
+                  type="date"
+                  id="openingDate"
+                  value={openingDate}
+                  onChange={(e) => setOpeningDate(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+              
+              
+              <div className="flex flex-col mb-2">
+                <label htmlFor="phoneNumber" className="mb-1 font-bold">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="border p-2 rounded-lg"
+                  required
+                />
+              </div>
+          
               <div className="flex justify-between">
                 <button
                   type="submit"
